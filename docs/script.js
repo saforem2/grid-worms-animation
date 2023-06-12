@@ -13,10 +13,13 @@ class GridWorm
         this.xCoord  = point.x; 
         this.yCoord  = point.y; 
         this.interval= interval;
-        this.color = this.getColor(1,true);//get random color object
+        this.Opacity = this.getRandomNumber(0, 100) / 100;
+        this.nOpacity = this.getRandomNumber(0, 100) / 100;
+        // this.color = this.getColor(this.Opacity,true);//get random color object
+        this.color = this.getColor(this.Opacity,true);//get random color object
         this.mainColor = this.color.color;//color of the head and body of the girdworm
         this.mainColorIndex = this.color.index;
-        this.nColor = this.getColor(1,true);//get another random color object
+        this.nColor = this.getColor(this.nOpacity,true);//get another random color object
         this.arrowHeadColor = this.nColor.color;//color of the arrrow points at the head of the gridworm
         this.arrowHeadColorIndex = this.nColor.index; 
         this.pointsList = pointsList;  
@@ -34,20 +37,44 @@ class GridWorm
         {
             opacity = 1; 
         }
-        var colors = 
-        [
-            `rgba(0,0,0,${opacity})`,`rgba(192,192,192,${opacity})`/*silver*/,`rgba(128,128,128,${opacity})`/*gray*/,`rgba(128,0,0,${opacity})`/*maroon*/,
-            `rgba(255,0,0,${opacity})`/*red*/,`rgba(0,255,0,${opacity})`/*lime*/,`rgba(0,0,255,${opacity})`/*blue*/,`rgba(255,0,255,${opacity})`/*fuchsia*/,
-            `rgba(128,128,0,${opacity})`/*olive*/,`rgba(0,128,0,${opacity})`/*green*/,`rgba(128,0,128,${opacity})`/*purple*/,
-            `rgba(0,128,128,${opacity})`/*teal*/,`rgba(0,0,128,${opacity})`/*navy*/,`rgba(138,57,0,${opacity})`/*brown*/, `rgba(205,133,63,${opacity})`, 
-            `rgba(244,164,96,${opacity})`,`rgba(139,105,30,${opacity})`,`rgba(165,42,42,${opacity})`,`rgba(178,34,34,${opacity})`,
-            `rgba(220,20,60,${opacity})`,`rgba(255,140,0,${opacity})`,`rgba(255,165,0,${opacity})`,`rgba(255,215,0,${opacity})`,`rgba(184,134,11,${opacity})`,
-            `rgba(218,165,32,${opacity})`,`rgba(218,165,32,${opacity})`,`rgba(238,232,170,${opacity})`,`rgba(189,183,107,${opacity})`,`rgba(240,230,140,${opacity})`,  
-            `rgba(0,100,0,${opacity})`, `rgba(34,139,34,${opacity})`,`rgba(32,178,170,${opacity})`,`rgba(47,79,79,${opacity})`, 
-            `rgba(0,139,139,${opacity})`,`rgba(95,158,160,${opacity})`,`rgba(70,130,180,${opacity})`,`rgba(25,25,112,${opacity})`,
-            `rgba(0,0,128,${opacity})`,`rgba(0,0,139,${opacity})`,`rgba(72,61,139,${opacity})`,`rgba(75,0,130,${opacity})`,`rgba(139,0,139,${opacity})`, 
-            `rgba(0,0,0,${opacity})`,`rgba(105,105,105,${opacity})`, `rgba(169,169,169,${opacity})` 
-        ];
+        // rgb(96, 125, 139)
+        // rgb(158, 158, 158)
+        // rgb(255, 87, 34)
+        // rgb(255, 152, 0)
+        // rgb(255, 192, 8)
+        // rgb(255, 235, 59)
+        // rgb(205, 220, 57)
+        // rgb(139, 195, 75)
+        // rgb(76, 175, 80)
+        // rgb(0, 150, 136)
+        // rgb(0, 188, 212)
+        // rgb(1, 169, 244)
+        // rgb(33, 150, 243)
+        // rgb(64, 80, 181)
+        // rgb(103, 58, 183)
+        // rgb(156, 39, 176)
+        // rgb(233, 30, 99)
+        // rgb(244, 67, 54)
+        var colors = [
+            `rgba(96, 125, 139, ${opacity})`,
+            `rgba(158, 158, 158, ${opacity})`,
+            `rgba(255, 87, 34, ${opacity})`,
+            `rgba(255, 152, 0, ${opacity})`,
+            `rgba(255, 192, 8, ${opacity})`,
+            `rgba(255, 235, 59, ${opacity})`,
+            `rgba(205, 220, 57, ${opacity})`,
+            `rgba(139, 195, 75, ${opacity})`,
+            `rgba(76, 175, 80, ${opacity})`,
+            `rgba(0, 150, 136, ${opacity})`,
+            `rgba(0, 188, 212, ${opacity})`,
+            `rgba(1, 169, 244, ${opacity})`,
+            `rgba(33, 150, 243, ${opacity})`,
+            `rgba(64, 80, 181, ${opacity})`,
+            `rgba(103, 58, 183, ${opacity})`,
+            `rgba(156, 39, 176, ${opacity})`,
+            `rgba(233, 30, 99, ${opacity})`,
+            `rgba(244, 67, 54, ${opacity})`,
+        ]
         if(isRandom)
         {
             let index = Math.floor(this.getRandomNumber(0,colors.length-1)); 
@@ -166,7 +193,7 @@ class GridWorm
         ctx.moveTo(point1.x, point1.y);
         ctx.lineTo(point2.x, point2.y);
         ctx.lineTo(point3.x, point3.y);  
-        ctx.fillStyle = 'rgba(0,0,0,0.1)';//transparent black  
+        ctx.fillStyle = 'rgba(0,0,0,0.0)';//transparent black  
         ctx.fill();   
     }
     draw(ctx)
@@ -186,7 +213,7 @@ class GridWorm
             
         } 
         //draw the line connecting head to body
-        ctx.strokeStyle = 'black';
+        ctx.strokeStyle = 'rgba(102,102,102, 0.5)';
         ctx.lineWidth = this.radius; 
         ctx.beginPath(); 
         ctx.moveTo(this.xCoord,this.yCoord); 
@@ -383,25 +410,25 @@ class Painter
     getRandomColor(opacity)
     {
         var colors = [
-            `rgba(255,0,0,      ${opacity})`,//red
-            `rgba(255, 242,0,   ${opacity})`,//yellow, 
-            `rgba(0,0,255,      ${opacity})`,//blue
-            `rgba(255,255,0,    ${opacity})`,//yellow
-            `rgba(0,255,255,    ${opacity})`,//cyan
-            `rgba(255,0,255,    ${opacity})`,//magenta/fuchsia
-            `rgba(192,192,192,  ${opacity})`,//silver
-            `rgba(128,128,128,  ${opacity})`,//gray 
-            `rgba(128,0,0,      ${opacity})`,//maroon
-            `rgba(128,128,0,    ${opacity})`,//olive
-            `rgba(0,128,0,      ${opacity})`,//green
-            `rgba(128,0,128,    ${opacity})`,//purple 
-            `rgba(0,128,128,    ${opacity})`,//teal
-            `rgba(0,0,128,      ${opacity})`,//navy 
-            `rgba(0, 255, 0,    ${opacity})`,//green
-            `rgba(77, 0, 255,   ${opacity})`,//blue
-            `rgba(255, 0, 140,  ${opacity})`,//purple
-            `rgba(0,255,0,      ${opacity})`//lime
-        ];
+            `rgba(96, 125, 139, ${opacity})`,
+            `rgba(158, 158, 158, ${opacity})`,
+            `rgba(255, 87, 34, ${opacity})`,
+            `rgba(255, 152, 0, ${opacity})`,
+            `rgba(255, 192, 8, ${opacity})`,
+            `rgba(255, 235, 59, ${opacity})`,
+            `rgba(205, 220, 57, ${opacity})`,
+            `rgba(139, 195, 75, ${opacity})`,
+            `rgba(76, 175, 80, ${opacity})`,
+            `rgba(0, 150, 136, ${opacity})`,
+            `rgba(0, 188, 212, ${opacity})`,
+            `rgba(1, 169, 244, ${opacity})`,
+            `rgba(33, 150, 243, ${opacity})`,
+            `rgba(64, 80, 181, ${opacity})`,
+            `rgba(103, 58, 183, ${opacity})`,
+            `rgba(156, 39, 176, ${opacity})`,
+            `rgba(233, 30, 99, ${opacity})`,
+            `rgba(244, 67, 54, ${opacity})`,
+        ]
         return colors[parseInt(this.getRandomNumber(0, colors.length))];
     }
     /**
@@ -458,7 +485,7 @@ function getBrowserWindowSize()
 {
     let win = window,
     doc     = document,
-    offset  = 20,//
+    offset  = 0,//
     docElem = doc.documentElement,
     body    = doc.getElementsByTagName('body')[0],
     browserWindowWidth  = win.innerWidth || docElem.clientWidth || body.clientWidth,
@@ -488,7 +515,7 @@ window.addEventListener('resize',onWindowResize);
 function updateCanvas()
 {
     ctx.clearRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);    
-    ctx.fillStyle   = 'white';  
+    ctx.fillStyle   = '#1c1c1c';  
     ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 }
 function doAnimationLoop(timestamp)
@@ -502,3 +529,4 @@ function doAnimationLoop(timestamp)
     requestAnimationFrame(doAnimationLoop); 
 } 
 requestAnimationFrame(doAnimationLoop);
+
