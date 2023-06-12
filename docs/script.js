@@ -37,6 +37,9 @@ class GridWorm
         {
             opacity = 1; 
         }
+
+
+        
         // rgb(96, 125, 139)
         // rgb(158, 158, 158)
         // rgb(255, 87, 34)
@@ -55,6 +58,37 @@ class GridWorm
         // rgb(156, 39, 176)
         // rgb(233, 30, 99)
         // rgb(244, 67, 54)
+        //
+        // rgb(120, 144, 156)
+        // rgb(189, 189, 189)
+        // rgb(244, 81, 30)
+        // rgb(255, 112, 67)
+        // rgb(255, 202, 39)
+        // rgb(255, 238, 88)
+        // rgb(156, 204, 101)
+        // rgb(102, 187, 106)
+        // rgb(39, 166, 154)
+        // rgb(39, 198, 218)
+        // rgb(43, 182, 246)
+        // rgb(66, 165, 245)
+        // rgb(92, 107, 192)
+        // rgb(171, 71, 188)
+        // rgb(236, 64, 122)
+        // rgb(84, 110, 122)
+        // rgb(117, 117, 117)
+        // rgb(255, 179, 0)
+        // rgb(253, 216, 54)
+        // rgb(192, 202, 51)
+        // rgb(124, 179, 66)
+        // rgb(68, 160, 71)
+        // rgb(0, 137, 123)
+        // rgb(4, 155, 229)
+        // rgb(30, 136, 229)
+        // rgb(57, 73, 171)
+        // rgb(94, 53, 177)
+        // rgb(142, 36, 170)
+        // rgb(216, 27, 96)
+        // rgb(229, 56, 53)
         var colors = [
             `rgba(96, 125, 139, ${opacity})`,
             `rgba(158, 158, 158, ${opacity})`,
@@ -74,6 +108,36 @@ class GridWorm
             `rgba(156, 39, 176, ${opacity})`,
             `rgba(233, 30, 99, ${opacity})`,
             `rgba(244, 67, 54, ${opacity})`,
+            `rgba(120, 144, 156, ${opacity})`,
+            `rgba(189, 189, 189, ${opacity})`,
+            `rgba(244, 81, 30, ${opacity})`,
+            `rgba(255, 112, 67, ${opacity})`,
+            `rgba(255, 202, 39, ${opacity})`,
+            `rgba(255, 238, 88, ${opacity})`,
+            `rgba(156, 204, 101, ${opacity})`,
+            `rgba(102, 187, 106, ${opacity})`,
+            `rgba(39, 166, 154, ${opacity})`,
+            `rgba(39, 198, 218, ${opacity})`,
+            `rgba(43, 182, 246, ${opacity})`,
+            `rgba(66, 165, 245, ${opacity})`,
+            `rgba(92, 107, 192, ${opacity})`,
+            `rgba(171, 71, 188, ${opacity})`,
+            `rgba(236, 64, 122, ${opacity})`,
+            `rgba(84, 110, 122, ${opacity})`,
+            `rgba(117, 117, 117, ${opacity})`,
+            `rgba(255, 179, 0, ${opacity})`,
+            `rgba(253, 216, 54, ${opacity})`,
+            `rgba(192, 202, 51, ${opacity})`,
+            `rgba(124, 179, 66, ${opacity})`,
+            `rgba(68, 160, 71, ${opacity})`,
+            `rgba(0, 137, 123, ${opacity})`,
+            `rgba(4, 155, 229, ${opacity})`,
+            `rgba(30, 136, 229, ${opacity})`,
+            `rgba(57, 73, 171, ${opacity})`,
+            `rgba(94, 53, 177, ${opacity})`,
+            `rgba(142, 36, 170, ${opacity})`,
+            `rgba(216, 27, 96, ${opacity})`,
+            `rgba(229, 56, 53, ${opacity})`,
         ]
         if(isRandom)
         {
@@ -118,7 +182,7 @@ class GridWorm
     }
     drawCircle(x,y,circleradius,ctx,colorIndex) 
     {
-        for(let i = 0; i < 3; i++)
+        for(let i = 0; i < 2; i++)
         {
             let color   = '';  
             let radius = 0; 
@@ -200,7 +264,7 @@ class GridWorm
     {    
         //draw the head of the gridworm 
         this.drawCircle(this.xCoord,this.yCoord,this.radius/2,ctx,this.mainColorIndex); 
-        this.drawArrowHead(this.xCoord,this.yCoord,this.radius/2,ctx,this.arrowHeadColorIndex); 
+        // this.drawArrowHead(this.xCoord,this.yCoord,this.radius/2,ctx,this.arrowHeadColorIndex); 
         //draw circles and squares at every visited junctions in the gridworm's memory(not RAM)
         for(let i = 0; i < this.junctionMemory.length; i++)
         {   
@@ -208,12 +272,13 @@ class GridWorm
             //draw a circle at each junction point
             this.drawCircle(junction.point.x, junction.point.y,this.radius/2,ctx,this.mainColorIndex);  
             //draw painted squares at every junction point
-            ctx.fillStyle   = this.getColor(0.1,false,this.mainColorIndex); 
+            ctx.fillStyle   = this.getColor(0.2,false,this.mainColorIndex); 
             ctx.fillRect(junction.point.x,junction.point.y,this.interval,this.interval);
             
         } 
         //draw the line connecting head to body
-        ctx.strokeStyle = 'rgba(102,102,102, 0.5)';
+        // ctx.strokeStyle = 'rgba(102,102,102, 0.3)';
+        ctx.strokeSttyle = this.getColor(1,false,this.mainColorIndex);
         ctx.lineWidth = this.radius; 
         ctx.beginPath(); 
         ctx.moveTo(this.xCoord,this.yCoord); 
@@ -366,29 +431,32 @@ class Painter
         this.screenHeight   = screenHeight;   
         this.interval       = 40;//interval from one point to the next 
         this.points         = this.createPoints(); //coordinates of the vertices of all squares when the canvas is partitioned
+        this.numWorms       = this.getRandomNumber(1, 10);
         this.gridWorms      = this.createGridWorms(); 
-        this.color          = this.getRandomColor(0.1);
+        this.opacity        = this.getRandomNumber(1, 100);
+        this.color          = this.getRandomColor(this.opacity);
         document.addEventListener('click',(event)=>//when user clicks on the canvas
         {   
+            this.numWorms = this.getRandomNumber(1, 10);
             this.points     = this.createPoints();
-            this.gridWorms  = this.createGridWorms();//spawn new gridworms
-            this.color          = this.getRandomColor(0.1);
+            this.opacity    = this.getRandomNumber(1, 100);
+            this.gridWorms  = this.createGridWorms(this.numWorms);//spawn new gridworms
+            this.color          = this.getRandomColor(this.opacity);
         });
     } 
-    createGridWorms() 
+    createGridWorms(numOfGridWorms = 10)
     {
-        let gridworms = [],
-            numOfGridWorms = 30; 
-        for(var i = 0; i < numOfGridWorms; i++)
+        const gridworms = []
+        for(let i = 0; i < numOfGridWorms; i++)
         { 
-            let point = this.points[Math.floor(this.getRandomNumber(0,this.points.length-1))];//randomly select a point
+            const point = this.points[Math.floor(this.getRandomNumber(0,this.points.length-1))];//randomly select a point
             gridworms.push(new GridWorm(point,this.interval,this.points,this.screenWidth,this.screenHeight));
         }
         return gridworms; 
     }
     createPoints()//divide the canvas into squares 
     {
-        let points = [], 
+        const points = [],
             interval = this.interval;//interval from one point to the next 
         for(var y = interval; y < this.screenHeight; y+=interval)//get all points in the grid, starting from the top to the bottom
         { 
@@ -428,6 +496,36 @@ class Painter
             `rgba(156, 39, 176, ${opacity})`,
             `rgba(233, 30, 99, ${opacity})`,
             `rgba(244, 67, 54, ${opacity})`,
+            `rgba(120, 144, 156, ${opacity})`,
+            `rgba(189, 189, 189, ${opacity})`,
+            `rgba(244, 81, 30, ${opacity})`,
+            `rgba(255, 112, 67, ${opacity})`,
+            `rgba(255, 202, 39, ${opacity})`,
+            `rgba(255, 238, 88, ${opacity})`,
+            `rgba(156, 204, 101, ${opacity})`,
+            `rgba(102, 187, 106, ${opacity})`,
+            `rgba(39, 166, 154, ${opacity})`,
+            `rgba(39, 198, 218, ${opacity})`,
+            `rgba(43, 182, 246, ${opacity})`,
+            `rgba(66, 165, 245, ${opacity})`,
+            `rgba(92, 107, 192, ${opacity})`,
+            `rgba(171, 71, 188, ${opacity})`,
+            `rgba(236, 64, 122, ${opacity})`,
+            `rgba(84, 110, 122, ${opacity})`,
+            `rgba(117, 117, 117, ${opacity})`,
+            `rgba(255, 179, 0, ${opacity})`,
+            `rgba(253, 216, 54, ${opacity})`,
+            `rgba(192, 202, 51, ${opacity})`,
+            `rgba(124, 179, 66, ${opacity})`,
+            `rgba(68, 160, 71, ${opacity})`,
+            `rgba(0, 137, 123, ${opacity})`,
+            `rgba(4, 155, 229, ${opacity})`,
+            `rgba(30, 136, 229, ${opacity})`,
+            `rgba(57, 73, 171, ${opacity})`,
+            `rgba(94, 53, 177, ${opacity})`,
+            `rgba(142, 36, 170, ${opacity})`,
+            `rgba(216, 27, 96, ${opacity})`,
+            `rgba(229, 56, 53, ${opacity})`,
         ]
         return colors[parseInt(this.getRandomNumber(0, colors.length))];
     }
@@ -453,7 +551,8 @@ class Painter
             this.screenHeight   = screenHeight;  
             this.screenWidth    = screenWidth;   
             this.points         = this.createPoints(); //coordinates of the vertices of all squares when the canvas is partitioned
-            this.gridWorms      = this.createGridWorms();  
+            this.numWorms = this.getRandomNumber(0, 30);
+            this.gridWorms      = this.createGridWorms(this.numWorms);  
         } 
     }  
     update(deltaTime)
