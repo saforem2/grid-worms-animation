@@ -35,11 +35,8 @@ class GridWorm
     { 
         if(opacity < 0 || opacity > 1 || opacity === null || isNaN(opacity))//if opacity is incorrect
         {
-            opacity = 1; 
+            const opacity = 1; 
         }
-
-
-        
         // rgb(96, 125, 139)
         // rgb(158, 158, 158)
         // rgb(255, 87, 34)
@@ -89,7 +86,7 @@ class GridWorm
         // rgb(142, 36, 170)
         // rgb(216, 27, 96)
         // rgb(229, 56, 53)
-        var colors = [
+        const colors = [
             `rgba(96, 125, 139, ${opacity})`,
             `rgba(158, 158, 158, ${opacity})`,
             `rgba(255, 87, 34, ${opacity})`,
@@ -141,8 +138,8 @@ class GridWorm
         ]
         if(isRandom)
         {
-            let index = Math.floor(this.getRandomNumber(0,colors.length-1)); 
-            let color = colors[index];
+            const index = Math.floor(this.getRandomNumber(0,colors.length-1)); 
+            const color = colors[index];
             return {color:color,index:index}; 
         }
         else//if specific
@@ -156,7 +153,8 @@ class GridWorm
     }
     getVelocity() 
     {
-        let x,y;
+        let x;
+        let y;
         //flip a coin to decide if gridworm moves vertically or horizontally
         if( Math.random() > 0.5)//if gridworm moves vertically
         {
@@ -212,7 +210,7 @@ class GridWorm
     }
     drawArrowHead(x,y,circleradius,ctx,colorIndex) 
     { 
-        let points = [];  
+        const points = [];  
         if(this.velocity.x === 0)//if gridworm is moving vertically
         {
             if(this.velocity.y > 0)//if gridworm is moving down
@@ -246,7 +244,7 @@ class GridWorm
         //draw a circle about the points that make the arrow head
         for(let i = 0; i < points.length;i++)
         {
-            let point = points[i];
+            const point = points[i];
             this.drawCircle(point.x,point.y,circleradius/2,ctx,colorIndex); 
         } 
         this.drawTriangle(points[0],points[1],points[2],ctx);//draw the arrow head 
@@ -268,7 +266,7 @@ class GridWorm
         //draw circles and squares at every visited junctions in the gridworm's memory(not RAM)
         for(let i = 0; i < this.junctionMemory.length; i++)
         {   
-            let junction = this.junctionMemory[this.junctionMemory.length -(i+1)];
+            const junction = this.junctionMemory[this.junctionMemory.length -(i+1)];
             //draw a circle at each junction point
             this.drawCircle(junction.point.x, junction.point.y,this.radius/2,ctx,this.mainColorIndex);  
             //draw painted squares at every junction point
@@ -285,7 +283,7 @@ class GridWorm
         //draw a line to link all the visited junctions in the gridworm's memory(not RAM)
         for(let i = 0; i < this.junctionMemory.length; i++)
         {   //starting from the most recent to the least recent(LIFO)[NB: more like a stack data structure]
-            let junction = this.junctionMemory[this.junctionMemory.length -(i+1)]; 
+            const junction = this.junctionMemory[this.junctionMemory.length -(i+1)]; 
             ctx.lineTo(junction.point.x, junction.point.y);   
         } 
         ctx.stroke(); 
@@ -319,14 +317,14 @@ class GridWorm
         {
             this.yCoord  = this.junctionMemory[this.junctionMemory.length-1].point.y; 
             this.velocity.y  = -this.velocity.y;//move up
-            this.yCoord  += this.velocity.y * 4;//nudge it a bit away from the edge
+            this.yCoord  += this.velocity.y * 3;//nudge it a bit away from the edge
         }
-        let currentCoord    = {x:this.xCoord,y:this.yCoord}; 
-        let latestJunction  = this.getJunctionReached(currentCoord); 
+        const currentCoord    = {x:this.xCoord,y:this.yCoord}; 
+        const latestJunction  = this.getJunctionReached(currentCoord); 
         if(latestJunction !== currentCoord)
         {   
-            let originalVelocity = this.velocity; 
-            let newVelocity = this.getVelocity();//flip a coin to decide to move up and down or right and left  
+            const originalVelocity = this.velocity; 
+            const newVelocity = this.getVelocity();//flip a coin to decide to move up and down or right and left  
             if(originalVelocity.y === 0 )//if gridworm is moving horizontally
             {
                 this.velocity = newVelocity;
@@ -336,7 +334,7 @@ class GridWorm
                 }
                 else 
                 {
-                    let memory = {point:latestJunction,velocity:this.velocity}; 
+                    const memory = {point:latestJunction,velocity:this.velocity}; 
                     if(!this.isInMemory(memory))
                     {
                         this.junctionMemory.push(memory);//add new memory to the queue
@@ -355,7 +353,7 @@ class GridWorm
                 }
                 else 
                 {
-                    let memory = {point:latestJunction,velocity:this.velocity}; 
+                    const memory = {point:latestJunction,velocity:this.velocity}; 
                     if(!this.isInMemory(memory))
                     {
                         this.junctionMemory.push(memory);//add new memory to the queue
@@ -386,13 +384,13 @@ class GridWorm
     {
         for(let i = 0; i < this.pointsList.length; i++)
         {
-            let point = this.pointsList[i];
+            const point = this.pointsList[i];
             //if point(junction) is too far away, ignore it 
             if(Math.abs(currentCoord.x - point.x) > (2 * this.interval) || Math.abs(currentCoord.y - point.y) > (2 *this.interval) )
             {
                 continue; 
             }
-            let distance = this.getDistance(currentCoord,point);  
+            const distance = this.getDistance(currentCoord,point);  
             if(distance <= (this.radius))//if gridworm head is close enough to a junction
             {  
                 return point;  
@@ -402,9 +400,9 @@ class GridWorm
     }     
     getDistance(p1,p2)//the distance between two points, p1 and p2
     {
-        let dx = p1.x - p2.x; 
-        let dy = p1.y - p2.y; 
-        let distance = Math.sqrt(dx*dx + dy*dy);
+        const dx = p1.x - p2.x; 
+        const dy = p1.y - p2.y; 
+        const distance = Math.sqrt(dx*dx + dy*dy);
         return distance; 
     }
     
@@ -456,15 +454,15 @@ class Painter
     }
     createPoints()//divide the canvas into squares 
     {
-        const points = [],
-            interval = this.interval;//interval from one point to the next 
-        for(var y = interval; y < this.screenHeight; y+=interval)//get all points in the grid, starting from the top to the bottom
+        const points = []
+        const interval = this.interval;//interval from one point to the next 
+        for(let y = interval; y < this.screenHeight; y+=interval)//get all points in the grid, starting from the top to the bottom
         { 
             if(y+interval > this.screenHeight)//if the next point is beyond the right edge of the canvas
             {
                 continue; //skip
             } 
-            for(var x = interval; x < this.screenWidth; x+=interval)//all the while, getting all the horizontal points at each level 
+            for(let x = interval; x < this.screenWidth; x+=interval)//all the while, getting all the horizontal points at each level 
             { 
                 if(x+interval > this.screenWidth)//if the next point is beyond the bottom edge of the canvas
                 { 
@@ -477,7 +475,7 @@ class Painter
     }  
     getRandomColor(opacity)
     {
-        var colors = [
+        const colors = [
             `rgba(96, 125, 139, ${opacity})`,
             `rgba(158, 158, 158, ${opacity})`,
             `rgba(255, 87, 34, ${opacity})`,
@@ -582,28 +580,28 @@ class Painter
 //set everything up 
 function getBrowserWindowSize() 
 {
-    let win = window,
-    doc     = document,
-    offset  = 0,//
-    docElem = doc.documentElement,
-    body    = doc.getElementsByTagName('body')[0],
-    browserWindowWidth  = win.innerWidth || docElem.clientWidth || body.clientWidth,
-    browserWindowHeight = win.innerHeight|| docElem.clientHeight|| body.clientHeight; 
+    const win = window;
+    const doc     = document;
+    const offset  = 0;//
+    const docElem = doc.documentElement;
+    const body    = doc.getElementsByTagName('body')[0];
+    const browserWindowWidth  = win.innerWidth || docElem.clientWidth || body.clientWidth;
+    const browserWindowHeight = win.innerHeight|| docElem.clientHeight|| body.clientHeight;
     return {x:browserWindowWidth-offset,y:browserWindowHeight-offset}; 
 } 
-let browserWindowSize   = getBrowserWindowSize(),
-c   = document.getElementById("gridwormCanvas"),
-ctx = c.getContext("2d"); 
+const browserWindowSize   = getBrowserWindowSize();
+const c   = document.getElementById("gridwormCanvas");
+const ctx = c.getContext("2d"); 
 //set size of canvas
 c.width          = browserWindowSize.x; 
 c.height         = browserWindowSize.y; 
-let SCREEN_WIDTH = browserWindowSize.x,
-    SCREEN_HEIGHT= browserWindowSize.y,   
-    painter      = new Painter(SCREEN_WIDTH,SCREEN_HEIGHT),  
-    lastTime     = 100,  
-    windowSize;   
+let SCREEN_WIDTH = browserWindowSize.x;
+let SCREEN_HEIGHT= browserWindowSize.y;
+const painter      = new Painter(SCREEN_WIDTH,SCREEN_HEIGHT);
+let lastTime     = 100;
+let windowSize;
 function onWindowResize()//called every time the window gets resized. 
-{  
+{
     windowSize     = getBrowserWindowSize();
     c.width        = windowSize.x; 
     c.height       = windowSize.y; 
@@ -621,7 +619,7 @@ function doAnimationLoop(timestamp)
 {           
     updateCanvas();
     painter.refreshScreenSize(SCREEN_HEIGHT,SCREEN_WIDTH);//let canvas respond to window resizing  
-    let deltaTime  = timestamp - lastTime; 
+    const deltaTime  = timestamp - lastTime; 
         lastTime   = timestamp;
     painter.update(deltaTime);   
     painter.draw(ctx);  
