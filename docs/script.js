@@ -427,9 +427,11 @@ class Painter
     {      
         this.screenWidth    = screenWidth;
         this.screenHeight   = screenHeight;   
-        this.interval       = 40;//interval from one point to the next 
+        // this.interval       = 40;//interval from one point to the next 
+        this.interval = 40
         this.points         = this.createPoints(); //coordinates of the vertices of all squares when the canvas is partitioned
-        this.numWorms       = this.getRandomNumber(1, 10);
+        this.maxWorms       = this.getRandomNumber(10, 30);
+        this.numWorms       = this.getRandomNumber(1, this.maxNumWorms);
         this.gridWorms      = this.createGridWorms(); 
         this.opacity        = this.getRandomNumber(1, 100);
         this.color          = this.getRandomColor(this.opacity);
@@ -582,7 +584,7 @@ function getBrowserWindowSize()
 {
     const win = window;
     const doc     = document;
-    const offset  = 0;//
+    const offset  = 5;//
     const docElem = doc.documentElement;
     const body    = doc.getElementsByTagName('body')[0];
     const browserWindowWidth  = win.innerWidth || docElem.clientWidth || body.clientWidth;
