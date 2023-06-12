@@ -430,17 +430,16 @@ class Painter
         // this.interval       = 40;//interval from one point to the next 
         this.interval = 40
         this.points         = this.createPoints(); //coordinates of the vertices of all squares when the canvas is partitioned
-        this.maxWorms       = this.getRandomNumber(10, 30);
-        this.numWorms       = this.getRandomNumber(1, this.maxNumWorms);
-        this.gridWorms      = this.createGridWorms(); 
+        // this.numWorms       = this.getRandomNumber(1, 10);
+        this.gridWorms      = this.createGridWorms(this.getRandomNumber(1, 10));
         this.opacity        = this.getRandomNumber(1, 100);
         this.color          = this.getRandomColor(this.opacity);
         document.addEventListener('click',(event)=>//when user clicks on the canvas
         {   
-            this.numWorms = this.getRandomNumber(1, 10);
+            // this.numWorms = this.getRandomNumber(1, 10);
             this.points     = this.createPoints();
             this.opacity    = this.getRandomNumber(1, 100);
-            this.gridWorms  = this.createGridWorms(this.numWorms);//spawn new gridworms
+            this.gridWorms  = this.createGridWorms(this.getRandomNumber(1, 10));//spawn new gridworms
             this.color          = this.getRandomColor(this.opacity);
         });
     } 
@@ -531,8 +530,8 @@ class Painter
     }
     /**
     * Returns a random number between min (inclusive) and max (exclusive)
-    * @param  {number} min The lesser of the two numbers. 
-    * @param  {number} max The greater of the two numbers.  
+    * @param  {number} min The lesser of the two numbers.
+    * @param  {number} max The greater of the two numbers.
     * @return {number} A random number between min (inclusive) and max (exclusive)
     */
     getRandomNumber(min, max) 
@@ -541,18 +540,17 @@ class Painter
     } 
     /**
     * Let canvas respond to window resizing.
-    * @param  {number} screenHeight The height of the screen. 
-    * @param  {number} screenWidth  The width of the screen.  
+    * @param  {number} screenHeight The height of the screen.
+    * @param  {number} screenWidth  The width of the screen
     */
     refreshScreenSize(screenHeight,screenWidth)
     {   
         if(this.screenHeight !== screenHeight || this.screenWidth !== screenWidth)//if the screen size has changed
         {  
-            this.screenHeight   = screenHeight;  
-            this.screenWidth    = screenWidth;   
+            this.screenHeight   = screenHeight;
+            this.screenWidth    = screenWidth;
             this.points         = this.createPoints(); //coordinates of the vertices of all squares when the canvas is partitioned
-            this.numWorms = this.getRandomNumber(0, 30);
-            this.gridWorms      = this.createGridWorms(this.numWorms);  
+            this.gridWorms      = this.createGridWorms(this.getRandomNumber(1, 10));
         } 
     }  
     update(deltaTime)
